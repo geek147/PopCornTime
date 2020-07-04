@@ -20,12 +20,16 @@ class MainFragment : Fragment(){
 
     companion object {
         fun newInstance() = MainFragment()
+        const val NOW_PLAYING : String = "NOW_PLAYING"
+        const val TOP_RATED: String = "TOP_RATED"
+        const val POPULAR: String = "POPULAR"
     }
 
    val viewModel: MainViewModel by viewModel()
     private lateinit var adapter: MovieAdapter
     private var page = 1
-    private var isLoadMore = false
+    private var statusNow = NOW_PLAYING
+
 
 
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
@@ -45,17 +49,24 @@ class MainFragment : Fragment(){
 
         menu_popular.setOnClickListener{
             page = 1
+            adapter.setData(emptyList())
             viewModel.getPopularMovie(page.toString())
+            statusNow = POPULAR
         }
 
         menu_now_playing.setOnClickListener{
             page = 1
+            adapter.setData(emptyList())
             viewModel.getNowPlayingMovie(page.toString())
+            statusNow = NOW_PLAYING
+
         }
 
         menu_top_rated.setOnClickListener{
             page = 1
+            adapter.setData(emptyList())
             viewModel.geTopRatedMovie(page.toString())
+            statusNow = TOP_RATED
         }
 
         setupRecylerView()
@@ -82,9 +93,14 @@ class MainFragment : Fragment(){
                 totalItemsCount: Int,
                 view: RecyclerView?
             ) {
-                isLoadMore = true
                 val newPage = page +1
-                viewModel.getNowPlayingMovie(newPage.toString())
+                if (statusNow == NOW_PLAYING) {
+                    viewModel.getNowPlayingMovie(newPage.toString())
+                } else if (statusNow == POPULAR) {
+                    viewModel.getPopularMovie(newPage.toString())
+                } else if (statusNow == TOP_RATED) {
+                    viewModel.geTopRatedMovie(newPage.toString())
+                }
 
             }
 
@@ -93,7 +109,7 @@ class MainFragment : Fragment(){
 
     private fun observeData () {
         viewModel.movies.observe(viewLifecycleOwner, Observer{
-            adapter.setData(it)
+            adapter.addData(it)
             adapter.notifyDataSetChanged()
 
         })
