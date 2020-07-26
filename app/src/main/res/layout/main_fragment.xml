@@ -8,13 +8,15 @@
 
 
 
-
+    <include layout="@layout/carousel_layout"
+        android:id="@+id/layout_carousel"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:visibility="gone"
         tools:listitem="@layout/adapter_movies"
         />
 
@@ -37,6 +39,17 @@
         app:menu_labels_showShadow="true"
         app:menu_openDirection="up"
         app:menu_showShadow="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_carousel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Popular"
+            android:src="@drawable/ic_baseline_group_work_24"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="#FF00786D"
+            app:fab_size="mini" />
+
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_popular"

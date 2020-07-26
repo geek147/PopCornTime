@@ -4,9 +4,7 @@ import com.envios.kitabisa.BuildConfig
 import com.envios.kitabisa.data.local.dao.FavoriteDao
 import com.envios.kitabisa.data.local.model.Favorite
 import com.envios.kitabisa.data.remote.MovieAPI
-import com.envios.kitabisa.data.remote.model.Movie
-import com.envios.kitabisa.data.remote.model.MovieDetail
-import com.envios.kitabisa.data.remote.model.Review
+import com.envios.kitabisa.data.remote.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,6 +26,19 @@ class MovieRepository(private val movieAPI: MovieAPI, val favoriteDao: FavoriteD
         val response = movieAPI.getNowPlayingMovieAsync(BuildConfig.API_KEY, "en-US", page).await()
         return response.body()?.results
     }
+
+
+    suspend fun getMovieGenres(): List<Genre?>? {
+        val response = movieAPI.getMovieGenreAsync(BuildConfig.API_KEY, "en-US").await()
+        return response.body()?.genres
+    }
+
+    suspend fun getMoviesByGenre( withGenre:String): List<Movie?>? {
+        val response = movieAPI.getMoviesByGenreAsync(BuildConfig.API_KEY, withGenre ).await()
+        return response.body()?.results
+
+    }
+
 
     suspend fun getMovieReviews( movie_id:String): List<Review?>? {
         val response = movieAPI.getReviewAsync(movie_id, BuildConfig.API_KEY).await()

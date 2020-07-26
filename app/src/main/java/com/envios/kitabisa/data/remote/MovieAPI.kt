@@ -28,4 +28,11 @@ interface MovieAPI {
     @GET("movie/{movie_id}")
     fun getMovieDetailAsync(@Path("movie_id") movieId: String, @Query("api_key") apiKey:String): Deferred<Response<MovieDetail>>
 
+
+    @GET("genre/movie/list")
+    fun getMovieGenreAsync(@Query("api_key") apiKey:String, @Query("language") language:String): Deferred<Response<GenreResponse>>
+
+    @GET("discover/movie")
+    fun getMoviesByGenreAsync(@Query("api_key") apiKey:String, @Query("with_genres") with_genres:String): Deferred<Response<PopularResponse>>
+
 }
