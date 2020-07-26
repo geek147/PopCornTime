@@ -11,12 +11,10 @@ import com.envios.kitabisa.utils.ViewModelState
 
 abstract class BaseViewModel : ViewModel() {
 
-    val _states = MutableLiveData<ViewModelState>()
     private val loading = Loading(false)
     private var failed = Failed()
     private var success = Success()
-    val states: LiveData<ViewModelState>
-        get() = _states
+
 
 
     @CallSuper
@@ -24,20 +22,20 @@ abstract class BaseViewModel : ViewModel() {
         super.onCleared()
     }
 
-    fun showLoading(isLoading: Boolean){
+    fun showLoading(isLoading: Boolean, state:MutableLiveData<ViewModelState>){
         loading.isLoading = isLoading
-        _states.value = loading
+        state.value = loading
     }
 
-    fun showErrorMessage(message: String?=null){
+    fun showErrorMessage(message: String?=null, state:MutableLiveData<ViewModelState>){
         if(message!= null){
             failed.error = message
-            _states.value = failed
+            state.value = failed
         }
     }
 
-    fun showSuccessMessage(message:String?=null){
+    fun showSuccessMessage(message:String?=null, state:MutableLiveData<ViewModelState>){
         success.message = message
-        _states.value = success
+        state.value = success
     }
 }

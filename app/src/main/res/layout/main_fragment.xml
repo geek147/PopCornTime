@@ -20,6 +20,7 @@
         tools:listitem="@layout/adapter_movies"
         />
 
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
         android:layout_width="wrap_content"
@@ -44,7 +45,7 @@
             android:id="@+id/menu_carousel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="Popular"
+            app:fab_label="Carousel"
             android:src="@drawable/ic_baseline_group_work_24"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="#FF00786D"

@@ -1,17 +1,12 @@
 package com.envios.kitabisa.ui.favorite
 
-import android.app.Application
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.transition.Transition
 import com.envios.kitabisa.data.local.dao.FavoriteDao
 import com.envios.kitabisa.data.local.db.FavoriteDb
 import com.envios.kitabisa.data.local.model.Favorite
-import com.envios.kitabisa.data.remote.model.MovieDetail
 import com.envios.kitabisa.data.repository.MovieRepository
-import com.envios.kitabisa.ui.main.MainViewModel
-import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
@@ -24,7 +19,6 @@ import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 
 class FavoriteViewModelTest {

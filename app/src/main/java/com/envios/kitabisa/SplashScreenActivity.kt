@@ -8,7 +8,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.envios.kitabisa.ui.main.MainActivity
-import com.envios.kitabisa.R
 
 
 class SplashScreenActivity : AppCompatActivity() {

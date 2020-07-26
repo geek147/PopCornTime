@@ -11,13 +11,24 @@
         android:focusableInTouchMode="true"
         android:layout_height="wrap_content">
 
+        <ProgressBar
+            android:id="@+id/pg_progress_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_backdrop" />
+
         <ImageView
             android:id="@+id/iv_backdrop"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/backdrop_guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -91,9 +102,9 @@
             android:textColor="@android:color/white"
 
             app:layout_constraintEnd_toEndOf="@+id/card_poster"
+            app:layout_constraintHorizontal_bias="0.006"
             app:layout_constraintStart_toStartOf="@+id/card_poster"
-            app:layout_constraintTop_toBottomOf="@+id/card_poster"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/card_poster" />
 
         <TextView
             android:id="@+id/tv_review"
@@ -109,20 +120,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_overview" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_review"
-            android:layout_width="315dp"
-            android:layout_height="529dp"
-            android:layout_marginStart="23dp"
-
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginEnd="27dp"
-            android:layout_marginRight="27dp"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_review"
-            tools:listitem="@layout/review_adapter" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_review">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_review"
+                android:layout_width="315dp"
+                android:layout_height="529dp"
+                android:layout_marginStart="23dp"
+
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="27dp"
+                android:layout_marginRight="27dp"
+
+                tools:listitem="@layout/review_adapter" />
+
+            <ProgressBar
+                android:id="@+id/pg_progress_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+
 
         <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/tg_favorite"

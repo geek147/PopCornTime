@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.main.MainActivity" >
+        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.list.MovieListActivity" >
 
         </activity>
         <activity android:name=".ui.favorite.FavoriteActivity" />

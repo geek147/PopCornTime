@@ -1,24 +1,31 @@
 package com.envios.kitabisa.ui.detail
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.envios.kitabisa.base.BaseViewModel
 import com.envios.kitabisa.data.local.model.Favorite
 import com.envios.kitabisa.data.remote.model.MovieDetail
 import com.envios.kitabisa.data.remote.model.Review
 import com.envios.kitabisa.data.repository.MovieRepository
+import com.envios.kitabisa.utils.ErrorUtils
+import com.envios.kitabisa.utils.Loading
+import com.envios.kitabisa.utils.ViewModelState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class DetailViewModel (private val repository: MovieRepository) : ViewModel()  {
+class DetailViewModel (private val repository: MovieRepository) : BaseViewModel()  {
+
+    data class movieDetailLoaded(val movieDetail:MovieDetail? = null) : ViewModelState()
+    data class reviewsLoaded(val reviews:List<Review?>? = null) : ViewModelState()
+
 
     val reviews by lazy {
-        MutableLiveData<List<Review?>?>()
+        MutableLiveData<ViewModelState>()
     }
 
     val movieDetail by lazy {
-        MutableLiveData <MovieDetail?>()
+        MutableLiveData <ViewModelState>()
     }
 
     val isFavorite by lazy{
@@ -28,17 +35,33 @@ class DetailViewModel (private val repository: MovieRepository) : ViewModel()  {
 
     fun getReviews(movie_id:String) {
 
+        reviews.value = Loading(true)
         viewModelScope.launch(Dispatchers.Main) {
-            reviews.value = repository.getMovieReviews(movie_id)
+            try{
+                val response = repository.getMovieReviews(movie_id)
+                reviews.value = DetailViewModel.reviewsLoaded(response)
+            }catch (t : Throwable) {
+                showErrorMessage(ErrorUtils.getErrorThrowableMsg(t),reviews)
+            }
 
         }
+
     }
 
     fun getMovieDetail(movie_id: String) {
+
+        movieDetail.value = Loading(true)
         viewModelScope.launch(Dispatchers.Main) {
-            movieDetail.value = repository.getMovieDetail(movie_id)
+            try{
+                val response = repository.getMovieDetail(movie_id)
+                movieDetail.value = DetailViewModel.movieDetailLoaded(response)
+            }catch (t : Throwable) {
+                showErrorMessage(ErrorUtils.getErrorThrowableMsg(t), movieDetail)
+            }
 
         }
+
+
     }
 
     fun insertMovieToFavorite(movieDetail: MovieDetail?) {
@@ -57,6 +80,7 @@ class DetailViewModel (private val repository: MovieRepository) : ViewModel()  {
 
 
     fun checkIsFavoriteMovie(id:Int) {
+
         viewModelScope.launch(Dispatchers.IO) {
             isFavorite.postValue(repository.checkIsFavorite(id))
         }

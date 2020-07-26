@@ -6,6 +6,7 @@ import com.envios.kitabisa.data.remote.MovieFactory
 import com.envios.kitabisa.data.repository.MovieRepository
 import com.envios.kitabisa.ui.detail.DetailViewModel
 import com.envios.kitabisa.ui.favorite.FavoriteViewModel
+import com.envios.kitabisa.ui.list.MovieListViewModel
 import com.envios.kitabisa.ui.main.MainViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -23,6 +24,9 @@ val appModules = module {
     viewModel { MainViewModel(get()) }
     viewModel { DetailViewModel(get()) }
     viewModel { FavoriteViewModel (get())}
+    viewModel { MovieListViewModel (get())}
+
+
 }
 
 val dataModules = module {

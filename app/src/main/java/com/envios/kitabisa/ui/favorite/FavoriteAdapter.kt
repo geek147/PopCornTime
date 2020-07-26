@@ -1,7 +1,6 @@
 package com.envios.kitabisa.ui.favorite
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.envios.kitabisa.R
 import com.envios.kitabisa.data.local.model.Favorite
 import com.envios.kitabisa.databinding.AdapterFavoritesBinding
-import com.envios.kitabisa.ui.detail.DetailActivity
 
 
 class FavoriteAdapter(context: Context): RecyclerView.Adapter<FavoriteAdapter.MainViewHolder>(){
@@ -41,7 +39,7 @@ class FavoriteAdapter(context: Context): RecyclerView.Adapter<FavoriteAdapter.Ma
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         listMovies?.get(holder.adapterPosition)?.let {
-            holder.bindData(it, context )
+            holder.bindData(it )
         }
     }
 
@@ -49,7 +47,7 @@ class FavoriteAdapter(context: Context): RecyclerView.Adapter<FavoriteAdapter.Ma
 
     class MainViewHolder(private val binding: AdapterFavoritesBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bindData(model: Favorite, context: Context){
+        fun bindData(model: Favorite){
             val viewModel = FavoriteItemViewModel(model)
             binding.itemFavorite = viewModel
            

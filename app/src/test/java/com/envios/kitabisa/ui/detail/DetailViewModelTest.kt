@@ -1,13 +1,9 @@
 package com.envios.kitabisa.ui.detail
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.envios.kitabisa.data.remote.model.Movie
 import com.envios.kitabisa.data.remote.model.MovieDetail
 import com.envios.kitabisa.data.remote.model.Review
 import com.envios.kitabisa.data.repository.MovieRepository
-import com.envios.kitabisa.ui.main.MainViewModel
 import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,16 +23,10 @@ import org.mockito.MockitoAnnotations
 class DetailViewModelTest {
 
     @Mock
-    private lateinit var application: Application
-
-    @Mock
     private lateinit var viewModel: DetailViewModel
 
     @Mock
     private lateinit var repository: MovieRepository
-
-    @Mock
-    private lateinit var context: Context
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
@@ -84,10 +74,12 @@ class DetailViewModelTest {
         false
         )
 
+
+
         runBlocking {
             Mockito.`when`(repository.getMovieDetail("14")).thenReturn(response)
 
-            viewModel.movieDetail.value = response
+            viewModel.movieDetail.value = DetailViewModel.movieDetailLoaded(response)
             Assert.assertNotNull(viewModel.movieDetail.value)
         }
     }
@@ -109,7 +101,7 @@ class DetailViewModelTest {
         runBlocking {
             Mockito.`when`(repository.getMovieReviews("14")).thenReturn(response)
 
-            viewModel.reviews.value = response
+            viewModel.reviews.value = DetailViewModel.reviewsLoaded(response)
             Assert.assertNotNull(viewModel.reviews.value)
         }
     }

@@ -33,6 +33,6 @@ interface MovieAPI {
     fun getMovieGenreAsync(@Query("api_key") apiKey:String, @Query("language") language:String): Deferred<Response<GenreResponse>>
 
     @GET("discover/movie")
-    fun getMoviesByGenreAsync(@Query("api_key") apiKey:String, @Query("with_genres") with_genres:String): Deferred<Response<PopularResponse>>
+    fun getMoviesByGenreAsync(@Query("api_key") apiKey:String, @Query("with_genres") with_genres:String, @Query("page") page:String): Deferred<Response<PopularResponse>>
 
 }

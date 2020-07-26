@@ -14,6 +14,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.envios.kitabisa.BuildConfig
 import com.envios.kitabisa.R
 import com.envios.kitabisa.data.remote.model.MovieDetail
+import com.envios.kitabisa.utils.Failed
+import com.envios.kitabisa.utils.Loading
 
 
 import kotlinx.android.synthetic.main.detail_activity.*
@@ -85,38 +87,73 @@ class DetailActivity : AppCompatActivity() {
 
     private fun observeReviewData() {
         detailViewModel.reviews.observe(this, Observer {
-            adapter.addData(it)
-            adapter.notifyDataSetChanged()
+            when (it) {
+                is Loading -> {
+                    pg_progress_review.visibility = View.VISIBLE
+                }
+
+                is DetailViewModel.reviewsLoaded -> {
+                    adapter.addData(it.reviews)
+                    adapter.notifyDataSetChanged()
+                    pg_progress_review.visibility = View.GONE
+
+                }
+
+                is Failed -> {
+                    pg_progress_review.visibility = View.GONE
+
+                }
+            }
+
+
 
         })
     }
 
     private fun observeMovieDetail() {
         detailViewModel.movieDetail.observe(this, Observer {
-            movieDetail = it
+            when (it) {
 
-            tv_title.text = it?.title
-            supportActionBar?.title = it?.title
+                is Loading -> {
+                    pg_progress_detail.visibility = View.VISIBLE
+                }
 
-            tv_release_date.text = "Release date : " +it?.releaseDate
-            tv_overview.text = "Deskripsi:\n" + it?.overview
-            val url:String = BuildConfig.IMAGE_URL+ it?.posterPath
-            Glide.with(this)
-                .load(url)
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_background))
-                .into(iv_poster)
+                is DetailViewModel.movieDetailLoaded -> {
+                    pg_progress_detail.visibility = View.GONE
 
-            val urlBackDrop:String = BuildConfig.BACKDROP_URL+ it?.backdropPath
-            Glide.with(this)
-                .load(urlBackDrop)
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_background))
-                .into(iv_backdrop)
+                    movieDetail = it.movieDetail
+
+                    tv_title.text = it.movieDetail?.title
+                    supportActionBar?.title = it.movieDetail?.title
+
+                    tv_release_date.text = "Release date : " +it.movieDetail?.releaseDate
+                    tv_overview.text = "Deskripsi:\n" + it?.movieDetail?.overview
+                    val url:String = BuildConfig.IMAGE_URL+ it.movieDetail?.posterPath
+                    Glide.with(this)
+                        .load(url)
+                        .apply(
+                            RequestOptions()
+                                .placeholder(R.drawable.ic_launcher_background)
+                                .error(R.drawable.ic_launcher_background))
+                        .into(iv_poster)
+
+                    val urlBackDrop:String = BuildConfig.BACKDROP_URL+ it.movieDetail?.backdropPath
+                    Glide.with(this)
+                        .load(urlBackDrop)
+                        .apply(
+                            RequestOptions()
+                                .placeholder(R.drawable.ic_launcher_background)
+                                .error(R.drawable.ic_launcher_background))
+                        .into(iv_backdrop)
+                }
+
+                is Failed -> {
+                    pg_progress_detail.visibility = View.GONE
+
+                }
+            }
+
+
 
         })
     }

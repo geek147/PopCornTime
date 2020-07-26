@@ -1,8 +1,7 @@
 package com.envios.kitabisa.ui.main
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.envios.kitabisa.data.remote.model.Genre
 import com.envios.kitabisa.data.remote.model.Movie
 import com.envios.kitabisa.data.repository.MovieRepository
 import junit.framework.Assert.assertNotNull
@@ -20,7 +19,6 @@ import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import retrofit2.Response
 
 class MainViewModelTest {
 
@@ -75,7 +73,7 @@ class MainViewModelTest {
         runBlocking {
             Mockito.`when`(repository.getPopularMovies("1")).thenReturn(response)
 
-            viewModel.movies.value = response
+            viewModel.movies.value = MainViewModel.moviesLoaded(response)
             assertNotNull(viewModel.movies.value)
         }
     }
@@ -101,7 +99,7 @@ class MainViewModelTest {
         runBlocking {
             Mockito.`when`(repository.getTopRatedMovie("1")).thenReturn(response)
 
-            viewModel.movies.value = response
+            viewModel.movies.value = MainViewModel.moviesLoaded(response)
             assertNotNull(viewModel.movies.value)
         }
     }
@@ -127,8 +125,55 @@ class MainViewModelTest {
         runBlocking {
             Mockito.`when`(repository.getNowPlayingMovie("1")).thenReturn(response)
 
-            viewModel.movies.value = response
+            viewModel.movies.value = MainViewModel.moviesLoaded(response)
             assertNotNull(viewModel.movies.value)
+        }
+    }
+
+    @Test
+    fun getMovieGenresAsync() {
+        val listGenre : MutableList<Genre?> = mutableListOf()
+        val movie = Genre(
+            26,
+            "Action"
+
+        )
+        listGenre.add(movie)
+
+
+        val response = listGenre.toList()
+
+        runBlocking {
+            Mockito.`when`(repository.getMovieGenres()).thenReturn(response)
+
+            viewModel.genres.value = MainViewModel.genreLoaded(response)
+            assertNotNull(viewModel.genres.value)
+        }
+    }
+
+    @Test
+    fun getMoviesByGenreAsync() {
+        val listMovie : MutableList<Movie?> = mutableListOf()
+        val movie = Movie(
+            false,
+            "/naXUDz0VGK7aaPlEpsuYW8kNVsr.jpg",
+            514847,
+            "Twelve strangers wake up in a clearing. They don't know where they are—or how they got there. In the shadow of a dark internet conspiracy theory, ruthless elitists gather at a remote location to hunt humans for sport. But their master plan is about to be derailed when one of the hunted turns the tables on her pursuers.",
+            "/wxPhn4ef1EAo5njxwBkAEVrlJJG.jpg",
+            "2020-02-29",
+            "Onward",
+            false
+        )
+        listMovie.add(movie)
+
+
+        val response = listMovie.toList()
+
+        runBlocking {
+            Mockito.`when`(repository.getMoviesByGenre("26","1")).thenReturn(response)
+
+            viewModel.moviesByGenre.value = MainViewModel.moviesLoaded(response)
+            assertNotNull(viewModel.moviesByGenre.value)
         }
     }
 }

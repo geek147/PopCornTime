@@ -33,8 +33,8 @@ class MovieRepository(private val movieAPI: MovieAPI, val favoriteDao: FavoriteD
         return response.body()?.genres
     }
 
-    suspend fun getMoviesByGenre( withGenre:String): List<Movie?>? {
-        val response = movieAPI.getMoviesByGenreAsync(BuildConfig.API_KEY, withGenre ).await()
+    suspend fun getMoviesByGenre( withGenre:String, page: String): List<Movie?>? {
+        val response = movieAPI.getMoviesByGenreAsync(BuildConfig.API_KEY, withGenre, page ).await()
         return response.body()?.results
 
     }
@@ -45,7 +45,7 @@ class MovieRepository(private val movieAPI: MovieAPI, val favoriteDao: FavoriteD
         return response.body()?.results
     }
 
-    suspend fun getMovieDetail( movie_id:String): MovieDetail?? {
+    suspend fun getMovieDetail( movie_id:String): MovieDetail? {
         val response = movieAPI.getMovieDetailAsync(movie_id, BuildConfig.API_KEY).await()
         return response.body()
     }
